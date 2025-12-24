@@ -1,0 +1,14 @@
+# Force Java files to be recognized as Java
+*.java linguist-language=Java
+
+# Exclude JavaDoc HTML documentation from language statistics
+**/doc/** linguist-documentation
+*.html linguist-documentation
+
+# Exclude compiled files and build artifacts
+*.class linguist-vendored
+*.jar linguist-vendored
+target/ linguist-vendored
+build/ linguist-vendored
+bin/ linguist-vendored
+
