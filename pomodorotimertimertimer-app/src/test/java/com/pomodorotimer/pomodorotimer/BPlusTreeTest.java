@@ -90,5 +90,40 @@ class BPlusTreeTest {
         List<String> files = tree.rangeQuery(150, 250);
         assertTrue(files.contains("file2.txt"));
     }
+    
+    @Test
+    @DisplayName("Test constructor with custom order")
+    void testConstructorWithOrder() {
+        BPlusTree customTree = new BPlusTree(5);
+        customTree.insert(1, "value1");
+        customTree.insert(2, "value2");
+        
+        assertEquals("value1", customTree.search(1));
+        assertEquals("value2", customTree.search(2));
+    }
+    
+    @Test
+    @DisplayName("Test range query with empty result")
+    void testRangeQueryEmptyResult() {
+        tree.insert(1, "value1");
+        tree.insert(5, "value5");
+        
+        List<String> result = tree.rangeQuery(10, 20);
+        assertTrue(result.isEmpty());
+    }
+    
+    @Test
+    @DisplayName("Test range query returning all results")
+    void testRangeQueryAllResults() {
+        tree.insert(1, "value1");
+        tree.insert(2, "value2");
+        tree.insert(3, "value3");
+        tree.insert(4, "value4");
+        tree.insert(5, "value5");
+        
+        List<String> result = tree.rangeQuery(1, 5);
+        assertEquals(5, result.size());
+    }
 }
+
 

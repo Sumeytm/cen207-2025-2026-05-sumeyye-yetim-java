@@ -135,5 +135,73 @@ class FileOperationsTest {
             assertEquals("path" + i, fileOps.get("file" + i));
         }
     }
+    
+    @Test
+    @DisplayName("Test get with key not found - break condition")
+    void testGetKeyNotFound() {
+        fileOps.put("file1", "path1");
+        
+        // Try to get non-existent key - should trigger break in get method
+        String result = fileOps.get("nonexistent");
+        assertNull(result);
+    }
+    
+    @Test
+    @DisplayName("Test remove with key not found - break condition")
+    void testRemoveKeyNotFound() {
+        fileOps.put("file1", "path1");
+        
+        // Try to remove non-existent key - should trigger break in remove method
+        String result = fileOps.remove("nonexistent");
+        assertNull(result);
+    }
+    
+    @Test
+    @DisplayName("Test getSearchTime with key not found - break condition")
+    void testGetSearchTimeKeyNotFound() {
+        fileOps.put("file1", "path1");
+        
+        // Try to search for non-existent key - should trigger break
+        int probes = fileOps.getSearchTime("nonexistent");
+        assertTrue(probes > 0);
+    }
+    
+    @Test
+    @DisplayName("Test resize triggered by load factor")
+    void testResizeByLoadFactor() {
+        // Create small capacity to trigger resize faster
+        FileOperations smallOps = new FileOperations(4);
+        
+        // Add enough elements to exceed load factor (0.75 * 4 = 3)
+        // So adding 4th element should trigger resize
+        smallOps.put("a", "path1");
+        smallOps.put("b", "path2");
+        smallOps.put("c", "path3");
+        smallOps.put("d", "path4"); // This should trigger resize
+        
+        assertEquals(4, smallOps.size());
+        assertEquals("path1", smallOps.get("a"));
+        assertEquals("path4", smallOps.get("d"));
+    }
+    
+    @Test
+    @DisplayName("Test put with full table - triggers resize and rehash")
+    void testPutWithFullTable() {
+        // Create very small table to force full table scenario
+        FileOperations tinyOps = new FileOperations(2);
+        
+        // Fill table to capacity
+        tinyOps.put("a", "path1");
+        tinyOps.put("b", "path2");
+        
+        // Adding third should trigger resize before insertion
+        tinyOps.put("c", "path3");
+        
+        assertEquals(3, tinyOps.size());
+        assertEquals("path1", tinyOps.get("a"));
+        assertEquals("path2", tinyOps.get("b"));
+        assertEquals("path3", tinyOps.get("c"));
+    }
 }
+
 

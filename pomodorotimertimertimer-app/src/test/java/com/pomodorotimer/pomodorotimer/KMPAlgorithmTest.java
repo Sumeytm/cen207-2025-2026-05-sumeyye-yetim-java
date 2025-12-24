@@ -77,6 +77,27 @@ class KMPAlgorithmTest {
     }
     
     @Test
+    @DisplayName("Test null text")
+    void testNullText() {
+        List<Integer> result = kmp.search(null, "pattern");
+        assertTrue(result.isEmpty());
+    }
+    
+    @Test
+    @DisplayName("Test null pattern")
+    void testNullPattern() {
+        List<Integer> result = kmp.search("Hello", null);
+        assertTrue(result.isEmpty());
+    }
+    
+    @Test
+    @DisplayName("Test null text and pattern")
+    void testNullTextAndPattern() {
+        List<Integer> result = kmp.search(null, null);
+        assertTrue(result.isEmpty());
+    }
+    
+    @Test
     @DisplayName("Test pattern equals text")
     void testPatternEqualsText() {
         String text = "ABC";

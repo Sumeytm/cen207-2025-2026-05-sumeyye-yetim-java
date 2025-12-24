@@ -92,5 +92,42 @@ class HuffmanCodingTest {
         assertEquals(text, decoded);
         assertTrue(encoded.length() < text.length() * 8); // Should compress
     }
+    
+    @Test
+    @DisplayName("Test encode with character not in encoding map")
+    void testEncodeCharacterNotInMap() {
+        String text = "abc";
+        HuffmanCoding huffman = new HuffmanCoding(text);
+        
+        // Try to encode a character that wasn't in the original text
+        assertThrows(IllegalArgumentException.class, () -> {
+            huffman.encode("abcx"); // 'x' is not in the encoding map
+        });
+    }
+    
+    @Test
+    @DisplayName("Test encode with multiple characters not in map")
+    void testEncodeMultipleCharactersNotInMap() {
+        String text = "hello";
+        HuffmanCoding huffman = new HuffmanCoding(text);
+        
+        // Try to encode with characters not in original text
+        assertThrows(IllegalArgumentException.class, () -> {
+            huffman.encode("helloworld"); // 'w', 'o', 'r', 'l', 'd' not in map
+        });
+    }
+    
+    @Test
+    @DisplayName("Test encode with special character not in map")
+    void testEncodeSpecialCharacterNotInMap() {
+        String text = "test";
+        HuffmanCoding huffman = new HuffmanCoding(text);
+        
+        // Try to encode with special character
+        assertThrows(IllegalArgumentException.class, () -> {
+            huffman.encode("test@"); // '@' not in encoding map
+        });
+    }
 }
+
 
