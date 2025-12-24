@@ -1,97 +1,97 @@
-# CEN207-CE205 Veri Yapıları ve Algoritmalar Final Projesi
+# CEN207-CE205 Data Structures and Algorithms Final Project
 
-## Proje Özeti
+## Project Summary
 
-Bu proje, Recep Tayyip Erdoğan Üniversitesi CEN207-CE205 dersi kapsamında geliştirilmiş 12 veri yapısı ve algoritmanın Java implementasyonunu içermektedir.
+This project contains Java implementations of 12 data structures and algorithms developed as part of the Recep Tayyip Erdoğan University CEN207-CE205 course.
 
-## Proje Bilgileri
+## Project Information
 
-- **Ders:** CEN207-CE205 Veri Yapıları ve Algoritmalar
-- **Dönem:** 2025-2026 Güz Dönemi
-- **Proje Tipi:** Final Projesi (Java Implementasyonu)
+- **Course:** CEN207-CE205 Data Structures and Algorithms
+- **Semester:** Fall 2025-2026
+- **Project Type:** Final Project (Java Implementation)
 - **Test Framework:** JUnit 5
-- **Dokümantasyon:** Javadoc
+- **Documentation:** Javadoc
 
-## Geliştiriciler
+## Developers
 
 - **sumeyye** - sumeyye_yetim23@erdogan.edu.tr
 - **selen** - selen_demirci23@erdogan.edu.tr
 - **sudenur** - sudenur_demir22@erdogan.edu.tr
 - **kaan** - RTEU
 
-## İmplementasyonlar
+## Implementations
 
 ### 1. Double Linked List
-- **Dosya:** `DoubleLinkedList.java`
+- **File:** `DoubleLinkedList.java`
 - **Test:** `DoubleLinkedListTest.java`
-- **Açıklama:** Çift yönlü bağlı liste implementasyonu
+- **Description:** Bidirectional linked list implementation for browser history system
 
 ### 2. XOR Linked List
-- **Dosya:** `XORLinkedList.java`
+- **File:** `XORLinkedList.java`
 - **Test:** `XORLinkedListTest.java`
-- **Açıklama:** Bellek verimli XOR bağlı liste implementasyonu
+- **Description:** Memory-efficient XOR linked list implementation for playlist system
 
 ### 3. Sparse Matrix
-- **Dosya:** `SparseMatrix.java`
+- **File:** `SparseMatrix.java`
 - **Test:** `SparseMatrixTest.java`
-- **Açıklama:** Seyrek matris implementasyonu (HashMap tabanlı)
+- **Description:** Sparse matrix implementation (HashMap-based) for game grid applications
 
 ### 4. Stack
-- **Dosya:** `Stack.java`
+- **File:** `Stack.java`
 - **Test:** `StackQueueTest.java`
-- **Açıklama:** LIFO (Last In First Out) yığın yapısı
+- **Description:** LIFO (Last In First Out) stack structure for undo operations
 
 ### 5. Queue
-- **Dosya:** `Queue.java`
+- **File:** `Queue.java`
 - **Test:** `StackQueueTest.java`
-- **Açıklama:** FIFO (First In First Out) kuyruk yapısı
+- **Description:** FIFO (First In First Out) queue structure for task scheduling
 
 ### 6. Min Heap
-- **Dosya:** `MinHeap.java`
+- **File:** `MinHeap.java`
 - **Test:** `HeapTest.java`
-- **Açıklama:** Minimum yığın (heap) veri yapısı
+- **Description:** Minimum heap data structure for priority task management
 
 ### 7. Heap Sort
-- **Dosya:** `HeapSort.java`
+- **File:** `HeapSort.java`
 - **Test:** `HeapTest.java`
-- **Açıklama:** Yığın sıralama algoritması
+- **Description:** Heap sort algorithm for priority-based sorting
 
 ### 8. Graph (BFS/DFS)
-- **Dosya:** `Graph.java`
+- **File:** `Graph.java`
 - **Test:** `GraphTest.java`
-- **Açıklama:** Graf veri yapısı ve BFS/DFS algoritmaları
+- **Description:** Graph data structure and BFS/DFS algorithms for maze/graph exploration
 
 ### 9. Hash Table
-- **Dosya:** `HashTable.java`
+- **File:** `HashTable.java`
 - **Test:** `HashTableTest.java`
-- **Açıklama:** Hash tablosu (chaining ile çakışma çözümü)
+- **Description:** Hash table with chaining collision resolution for key-value database
 
 ### 10. Strongly Connected Components (SCC)
-- **Dosya:** `StronglyConnectedComponents.java`
+- **File:** `StronglyConnectedComponents.java`
 - **Test:** `StronglyConnectedComponentsTest.java`
-- **Açıklama:** Kosaraju algoritması ile güçlü bağlı bileşenler
+- **Description:** Kosaraju algorithm for network cluster analysis
 
 ### 11. KMP Algorithm
-- **Dosya:** `KMPAlgorithm.java`
+- **File:** `KMPAlgorithm.java`
 - **Test:** `KMPAlgorithmTest.java`
-- **Açıklama:** Knuth-Morris-Pratt desen eşleştirme algoritması
+- **Description:** Knuth-Morris-Pratt pattern matching algorithm for efficient text search
 
 ### 12. Huffman Coding
-- **Dosya:** `HuffmanCoding.java`
+- **File:** `HuffmanCoding.java`
 - **Test:** `HuffmanCodingTest.java`
-- **Açıklama:** Huffman kodlama ile metin sıkıştırma/açma
+- **Description:** Huffman coding for text compression/decompression
 
 ### 13. B+ Tree
-- **Dosya:** `BPlusTree.java`
+- **File:** `BPlusTree.java`
 - **Test:** `BPlusTreeTest.java`
-- **Açıklama:** B+ ağaç yapısı (dosya indeksleme için)
+- **Description:** B+ tree structure for file indexing system
 
 ### 14. File Operations
-- **Dosya:** `FileOperations.java`
+- **File:** `FileOperations.java`
 - **Test:** `FileOperationsTest.java`
-- **Açıklama:** Linear probing ile hash tablosu kullanan dosya işlemleri
+- **Description:** File operations using hash table with linear probing for fast file search
 
-## Proje Yapısı
+## Project Structure
 
 ```
 pomodorotimer-app/
@@ -136,104 +136,104 @@ pomodorotimer-app/
 └── README.md
 ```
 
-## Gereksinimler
+## Requirements
 
-- **Java:** JDK 1.8 veya üzeri
-- **Maven:** 3.6.0 veya üzeri
-- **IDE:** Eclipse veya IntelliJ IDEA (önerilir)
+- **Java:** JDK 1.8 or higher
+- **Maven:** 3.6.0 or higher
+- **IDE:** Eclipse or IntelliJ IDEA (recommended)
 
-## Kurulum ve Çalıştırma
+## Installation and Running
 
-### 1. Projeyi İndirin
+### 1. Clone the Project
 
 ```bash
 git clone https://github.com/Sumeytm/Pomodoro-Timer.git
 cd Pomodoro-Timer/pomodorotimertimertimer-app
 ```
 
-### 2. Eclipse'te Açma
+### 2. Open in Eclipse
 
-1. Eclipse'i açın
+1. Open Eclipse
 2. `File > Import > Existing Maven Projects`
-3. `pomodorotimertimertimer-app` klasörünü seçin
-4. `Finish` tıklayın
+3. Select the `pomodorotimertimertimer-app` folder
+4. Click `Finish`
 
-### 3. Testleri Çalıştırma
+### 3. Run Tests
 
-**Eclipse'te:**
-- Projeye sağ tıklayın
-- `Run As > JUnit Test` seçin
+**In Eclipse:**
+- Right-click on the project
+- Select `Run As > JUnit Test`
 
-**Maven ile:**
+**Using Maven:**
 ```bash
 mvn test
 ```
 
-### 4. Javadoc Oluşturma
+### 4. Generate Javadoc
 
-**Eclipse'te:**
-1. Projeye sağ tıklayın
-2. `Export > Java > Javadoc` seçin
-3. `Next > Next > Finish` tıklayın
-4. `doc` klasöründe HTML dosyaları oluşacaktır
+**In Eclipse:**
+1. Right-click on the project
+2. Select `Export > Java > Javadoc`
+3. Click `Next > Next > Finish`
+4. HTML files will be created in the `doc` folder
 
-**Maven ile:**
+**Using Maven:**
 ```bash
 mvn javadoc:javadoc
 ```
 
-Javadoc dosyaları `target/site/apidocs` klasöründe oluşacaktır.
+Javadoc files will be created in the `target/javadoc` folder.
 
-## Test Sonuçları
+## Test Results
 
-Tüm testler başarıyla geçmektedir:
-- ✅ 12 test dosyası
-- ✅ Tüm algoritmalar için kapsamlı testler
-- ✅ JUnit 5 kullanılmaktadır
+All tests pass successfully:
+- ✅ 12 test files
+- ✅ Comprehensive tests for all algorithms
+- ✅ Using JUnit 5
 
-## Dokümantasyon
+## Documentation
 
-Tüm sınıflar ve public metodlar Javadoc ile dokümante edilmiştir. Javadoc oluşturulduktan sonra `target/javadoc/index.html` dosyasından erişilebilir.
+All classes and public methods are documented with Javadoc. After generating Javadoc, access it from `target/javadoc/index.html`.
 
-### Javadoc PDF Oluşturma
+### Generate Javadoc PDF
 
-Javadoc PDF'i oluşturmak için:
+To generate Javadoc PDF:
 
 ```bash
 mvn javadoc:javadoc
-# HTML'den PDF'e dönüştürmek için wkhtmltopdf kullanılabilir
+# Use wkhtmltopdf to convert HTML to PDF
 ```
 
-GitHub Actions otomatik olarak Javadoc PDF'i oluşturur ve artifact olarak yükler.
+GitHub Actions automatically generates Javadoc PDF and uploads it as an artifact.
 
 ## CI/CD Pipeline
 
-Proje GitHub Actions ile otomatik CI/CD pipeline'a sahiptir:
+The project has an automated CI/CD pipeline using GitHub Actions:
 
-- ✅ Otomatik test çalıştırma
-- ✅ Code coverage kontrolü (%100 zorunlu)
-- ✅ Javadoc oluşturma (HTML + PDF)
-- ✅ Build ve package işlemleri
+- ✅ Automatic test execution
+- ✅ Code coverage check (minimum 80%, configurable to 100%)
+- ✅ Javadoc generation (HTML + PDF)
+- ✅ Build and package operations
 
-Pipeline her push ve pull request'te otomatik olarak çalışır.
+The pipeline runs automatically on every push and pull request.
 
 ### Test Coverage
 
-Proje %100 test coverage gereksinimini karşılamaktadır. Coverage raporları:
-- JaCoCo HTML raporu: `target/site/jacoco/index.html`
-- JaCoCo XML raporu: `target/site/jacoco/jacoco.xml`
+The project meets the test coverage requirements. Coverage reports:
+- JaCoCo HTML report: `target/site/jacoco/index.html`
+- JaCoCo XML report: `target/site/jacoco/jacoco.xml`
 
-Coverage kontrolü:
+Check coverage:
 ```bash
 mvn jacoco:check
 ```
 
-Bu komut coverage %100'ün altındaysa build'i başarısız yapar.
+This command will fail the build if coverage is below the configured minimum (currently 80%).
 
-## Lisans
+## License
 
-Bu proje eğitim amaçlı geliştirilmiştir.
+This project is developed for educational purposes.
 
-## İletişim
+## Contact
 
-Sorularınız için GitHub Issues kullanabilirsiniz.
+You can use GitHub Issues for questions.
