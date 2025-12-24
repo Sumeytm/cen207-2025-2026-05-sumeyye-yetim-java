@@ -49,6 +49,9 @@
 			<name>kaan</name>
 			<organization>RTEU</organization>
 			<email>nazmikaan_erdogan22@erdogan.edu.tr</email>
+			<roles>
+				<role>Contributor</role>
+			</roles>
 	    </contributor>
 	</contributors>
 	<description>Maven Example Template Project</description>
