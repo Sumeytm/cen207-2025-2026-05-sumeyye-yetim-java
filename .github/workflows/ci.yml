@@ -15,21 +15,53 @@ jobs:
       uses: actions/checkout@v4
       
     - name: Check project directory
+      id: check_dir
       run: |
         echo "Checking for project directory..."
-        if [ -d "pomodorotimer-app" ]; then
+        echo "Current directory: $(pwd)"
+        echo "Available directories:"
+        ls -la
+        echo ""
+        
+        # Check if pom.xml is in root
+        if [ -f "pom.xml" ]; then
+          echo "✅ Found pom.xml in root directory"
+          echo "PROJECT_DIR=." >> $GITHUB_ENV
+          echo "✅ Using root directory as project directory"
+        elif [ -d "pomodorotimer-app" ]; then
           echo "✅ Found: pomodorotimer-app"
+          echo "Directory contents:"
+          ls -la pomodorotimer-app/ | head -10
+          if [ -f "pomodorotimer-app/pom.xml" ]; then
+            echo "✅ pom.xml found in pomodorotimer-app/"
+            echo "PROJECT_DIR=./pomodorotimer-app" >> $GITHUB_ENV
+          else
+            echo "❌ pom.xml not found in pomodorotimer-app/"
+            exit 1
+          fi
         elif [ -d "pomodorotimertimertimer-app" ]; then
           echo "⚠️ Found: pomodorotimertimertimer-app (old name)"
           echo "Renaming to pomodorotimer-app..."
           mv pomodorotimertimertimer-app pomodorotimer-app
           echo "✅ Renamed successfully"
+          if [ -f "pomodorotimer-app/pom.xml" ]; then
+            echo "✅ pom.xml found!"
+            echo "PROJECT_DIR=./pomodorotimer-app" >> $GITHUB_ENV
+          else
+            echo "❌ pom.xml not found after rename!"
+            exit 1
+          fi
         else
           echo "❌ Project directory not found!"
+          echo "Searching for pom.xml..."
+          find . -name "pom.xml" -type f 2>/dev/null | head -5
+          echo ""
           echo "Available directories:"
           ls -la
           exit 1
         fi
+        echo ""
+        echo "Project directory set to: $PROJECT_DIR"
       
     - name: Set up JDK 8
       uses: actions/setup-java@v4
@@ -39,14 +71,14 @@ jobs:
         cache: maven
         
     - name: Build with Maven
-      working-directory: ./pomodorotimer-app
+      working-directory: ${{ env.PROJECT_DIR }}
       run: |
         echo "Building project..."
         mvn clean compile
         echo "✅ Build successful!"
       
     - name: Run tests
-      working-directory: ./pomodorotimer-app
+      working-directory: ${{ env.PROJECT_DIR }}
       run: |
         echo "Running tests..."
         mvn test || {
@@ -72,7 +104,7 @@ jobs:
         echo "✅ All tests passed!"
       
     - name: Generate JaCoCo coverage report
-      working-directory: ./pomodorotimer-app
+      working-directory: ${{ env.PROJECT_DIR }}
       if: always()
       run: |
         echo "Generating JaCoCo coverage report..."
@@ -87,14 +119,14 @@ jobs:
         fi
       
     - name: Generate Javadoc
-      working-directory: ./pomodorotimer-app
+      working-directory: ${{ env.PROJECT_DIR }}
       run: |
         echo "Generating Javadoc..."
         mvn javadoc:javadoc
         echo "✅ Javadoc generated!"
       
     - name: Package application
-      working-directory: ./pomodorotimer-app
+      working-directory: ${{ env.PROJECT_DIR }}
       run: |
         echo "Packaging application..."
         mvn package -DskipTests
@@ -105,7 +137,7 @@ jobs:
       if: always()
       with:
         name: coverage-reports
-        path: pomodorotimer-app/target/site/jacoco/**
+        path: ${{ env.PROJECT_DIR }}/target/site/jacoco/**
         if-no-files-found: ignore
           
     - name: Upload Javadoc
@@ -113,5 +145,5 @@ jobs:
       if: always()
       with:
         name: javadoc
-        path: pomodorotimer-app/target/javadoc/**
+        path: ${{ env.PROJECT_DIR }}/target/javadoc/**
         if-no-files-found: ignore
