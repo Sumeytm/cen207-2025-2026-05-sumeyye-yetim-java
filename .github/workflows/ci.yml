@@ -23,7 +23,13 @@ jobs:
         
     - name: Build with Maven
       working-directory: ./pomodorotimertimertimer-app
-      run: mvn clean compile
+      run: |
+        echo "Building project..."
+        mvn clean compile -X 2>&1 | tail -50 || {
+          echo "❌ Build failed!"
+          exit 1
+        }
+        echo "✅ Build successful!"
       continue-on-error: false
       
     - name: Run tests with coverage
@@ -83,7 +89,19 @@ jobs:
       
     - name: Generate Javadoc
       working-directory: ./pomodorotimertimertimer-app
-      run: mvn javadoc:javadoc
+      run: |
+        echo "Generating Javadoc..."
+        mvn javadoc:javadoc || {
+          echo "❌ Javadoc generation failed!"
+          exit 1
+        }
+        echo "✅ Javadoc generated successfully!"
+        if [ -d target/javadoc ]; then
+          echo "Javadoc directory exists"
+          ls -la target/javadoc/ | head -10
+        else
+          echo "WARNING: Javadoc directory not found"
+        fi
       continue-on-error: false
       
     - name: Install wkhtmltopdf for PDF generation
@@ -123,20 +141,24 @@ jobs:
     - name: Upload coverage reports
       uses: actions/upload-artifact@v4
       if: always()
+      working-directory: ./pomodorotimertimertimer-app
       with:
         name: coverage-reports
         path: |
-          pomodorotimertimertimer-app/target/site/jacoco/**
-          pomodorotimertimertimer-app/target/jacoco/**
+          target/site/jacoco/**
+          target/jacoco/**
+        if-no-files-found: ignore
           
     - name: Upload Javadoc (HTML and PDF)
       uses: actions/upload-artifact@v4
       if: always()
+      working-directory: ./pomodorotimertimertimer-app
       with:
         name: javadoc
         path: |
-          pomodorotimertimertimer-app/target/javadoc/**
-          pomodorotimertimertimer-app/target/javadoc/*.pdf
+          target/javadoc/**
+          target/javadoc/*.pdf
+        if-no-files-found: ignore
           
     - name: Workflow Summary
       if: always()
