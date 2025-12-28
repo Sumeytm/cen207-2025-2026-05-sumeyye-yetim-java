@@ -159,7 +159,7 @@ public class DataStructuresApp {
         }
         
         System.out.println("\nBackward traversal:");
-        DoubleLinkedList<String>.Node<String> current = history.getTail();
+        DoubleLinkedList<String>.Node current = history.getTail();
         while (current != null) {
             System.out.println("  <- " + current.getData());
             current = current.getPrev();
@@ -264,7 +264,7 @@ public class DataStructuresApp {
      */
     private static void runHeapDemo() {
         System.out.println("\n=== Heap/Heap Sort - Priority Task Manager ===");
-        MinHeap<Integer> priorityQueue = new MinHeap<>();
+        MinHeap priorityQueue = new MinHeap();
         
         System.out.println("Adding tasks with priorities (lower number = higher priority)...");
         priorityQueue.insert(5);
@@ -350,7 +350,7 @@ public class DataStructuresApp {
         scc.addEdge(3, 4);
         
         System.out.println("\nFinding strongly connected components:");
-        java.util.List<java.util.List<Integer>> components = scc.findSCC();
+        java.util.List<java.util.List<Integer>> components = scc.findSCCs();
         System.out.println("  Number of components: " + components.size());
         for (int i = 0; i < components.size(); i++) {
             System.out.println("  Component " + (i + 1) + ": " + components.get(i));

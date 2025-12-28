@@ -1,6 +1,7 @@
 package com.pomodorotimer.pomodorotimer;
 
 import java.util.*;
+import java.lang.StringBuilder;
 
 /**
  * B+ Tree implementation for file indexing system.
@@ -221,7 +222,11 @@ public class BPlusTree {
      * @param level the current level in the tree
      */
     private void printNode(Node node, int level) {
-        String indent = "  ".repeat(level);
+        StringBuilder indentBuilder = new StringBuilder();
+        for (int i = 0; i < level; i++) {
+            indentBuilder.append("  ");
+        }
+        String indent = indentBuilder.toString();
         
         if (node.isLeaf()) {
             LeafNode leaf = (LeafNode) node;
