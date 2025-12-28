@@ -77,11 +77,11 @@ jobs:
         mvn clean compile
         echo "✅ Build successful!"
       
-    - name: Run tests
+    - name: Run tests with coverage
       working-directory: ${{ env.PROJECT_DIR }}
       run: |
-        echo "Running tests..."
-        mvn test || {
+        echo "Running tests with JaCoCo coverage..."
+        mvn clean test || {
           echo "❌ Tests failed!"
           echo "=== Test Failure Details ==="
           if [ -d target/surefire-reports ]; then
@@ -102,20 +102,39 @@ jobs:
           exit 1
         }
         echo "✅ All tests passed!"
+        echo ""
+        echo "Checking for JaCoCo exec file..."
+        if [ -f target/jacoco.exec ]; then
+          echo "✅ JaCoCo exec file found: target/jacoco.exec"
+        else
+          echo "⚠️ JaCoCo exec file not found"
+        fi
       
     - name: Generate JaCoCo coverage report
       working-directory: ${{ env.PROJECT_DIR }}
       if: always()
       run: |
         echo "Generating JaCoCo coverage report..."
-        mvn jacoco:report
-        echo "✅ Coverage report generated!"
+        if [ -f target/jacoco.exec ]; then
+          echo "JaCoCo exec file exists, generating report..."
+          mvn org.jacoco:jacoco-maven-plugin:0.8.7:report
+          echo "✅ Coverage report generated!"
+        else
+          echo "⚠️ JaCoCo exec file not found, running test phase again..."
+          mvn test org.jacoco:jacoco-maven-plugin:0.8.7:report
+          echo "✅ Coverage report generated!"
+        fi
+        echo ""
         echo "Checking for HTML report..."
         if [ -f target/site/jacoco/index.html ]; then
           echo "✅ HTML report found at: target/site/jacoco/index.html"
+          ls -lh target/site/jacoco/index.html
         else
-          echo "⚠️ HTML report not found, checking for XML..."
-          ls -la target/site/jacoco/ || echo "Jacoco directory not found"
+          echo "⚠️ HTML report not found, checking directory..."
+          ls -la target/site/jacoco/ 2>/dev/null || echo "Jacoco directory not found"
+          echo ""
+          echo "Checking for XML report..."
+          ls -la target/site/jacoco/jacoco.xml 2>/dev/null || echo "XML report not found"
         fi
       
     - name: Generate Javadoc
