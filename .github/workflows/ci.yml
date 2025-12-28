@@ -149,23 +149,21 @@ jobs:
     - name: Upload coverage reports
       uses: actions/upload-artifact@v4
       if: always()
-      working-directory: ./pomodorotimertimertimer-app
       with:
         name: coverage-reports
         path: |
-          target/site/jacoco/**
-          target/jacoco/**
+          pomodorotimertimertimer-app/target/site/jacoco/**
+          pomodorotimertimertimer-app/target/jacoco/**
         if-no-files-found: ignore
           
     - name: Upload Javadoc (HTML and PDF)
       uses: actions/upload-artifact@v4
       if: always()
-      working-directory: ./pomodorotimertimertimer-app
       with:
         name: javadoc
         path: |
-          target/javadoc/**
-          target/javadoc/*.pdf
+          pomodorotimertimertimer-app/target/javadoc/**
+          pomodorotimertimertimer-app/target/javadoc/*.pdf
         if-no-files-found: ignore
           
     - name: Workflow Summary
