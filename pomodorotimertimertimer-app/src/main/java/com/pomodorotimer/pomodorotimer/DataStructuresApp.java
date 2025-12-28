@@ -159,10 +159,10 @@ public class DataStructuresApp {
         }
         
         System.out.println("\nBackward traversal:");
-        DoubleLinkedList<String>.Node current = history.getTail();
-        while (current != null) {
-            System.out.println("  <- " + current.getData());
-            current = current.getPrev();
+        // Use backward iterator instead of direct node access
+        java.util.Iterator<String> backwardIt = history.backwardIterator();
+        while (backwardIt.hasNext()) {
+            System.out.println("  <- " + backwardIt.next());
         }
         
         System.out.println("\nSize: " + history.size());
