@@ -195,8 +195,6 @@ public class pomodorotimerApp extends JFrame implements PomodoroTimerListener {
         buttonPanel.add(startLongBreakButton);
         buttonPanel.add(stopButton);
         
-        mainPanel.add(buttonPanel, BorderLayout.CENTER);
-        
         // Görev Yönetimi Paneli - Data Structures kullanılıyor
         JPanel taskPanel = new JPanel(new BorderLayout());
         taskPanel.setBorder(BorderFactory.createTitledBorder("Görev Yönetimi (Data Structures Entegre)"));
@@ -206,12 +204,12 @@ public class pomodorotimerApp extends JFrame implements PomodoroTimerListener {
         taskList = new JList<>(taskListModel);
         taskList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         JScrollPane taskScrollPane = new JScrollPane(taskList);
-        taskScrollPane.setPreferredSize(new Dimension(0, 150));
+        taskScrollPane.setPreferredSize(new Dimension(0, 120));
         taskPanel.add(taskScrollPane, BorderLayout.CENTER);
         
         // Görev ekleme paneli
         JPanel taskInputPanel = new JPanel(new FlowLayout());
-        taskNameField = new JTextField(20);
+        taskNameField = new JTextField(15);
         taskNameField.setToolTipText("Görev adı girin");
         
         addTaskButton = new JButton("Görev Ekle");
@@ -238,7 +236,7 @@ public class pomodorotimerApp extends JFrame implements PomodoroTimerListener {
             }
         });
         
-        JButton showPriorityButton = new JButton("Öncelikli Göster (Heap)");
+        JButton showPriorityButton = new JButton("Öncelikli (Heap)");
         showPriorityButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -255,7 +253,7 @@ public class pomodorotimerApp extends JFrame implements PomodoroTimerListener {
         
         taskPanel.add(taskInputPanel, BorderLayout.SOUTH);
         
-        // Ana panel'e görev panelini ekle (timer ve butonların altına)
+        // Orta panel - Butonlar ve görev yönetimi
         JPanel centerPanel = new JPanel(new BorderLayout());
         centerPanel.add(buttonPanel, BorderLayout.NORTH);
         centerPanel.add(taskPanel, BorderLayout.CENTER);
