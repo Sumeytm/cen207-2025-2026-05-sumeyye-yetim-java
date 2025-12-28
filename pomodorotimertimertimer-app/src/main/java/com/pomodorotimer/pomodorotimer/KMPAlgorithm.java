@@ -109,5 +109,16 @@ public class KMPAlgorithm {
         List<Integer> occurrences = search(text, pattern);
         return occurrences.isEmpty() ? -1 : occurrences.get(0);
     }
+    
+    /**
+     * Finds all occurrences of pattern in text (alias for search method).
+     * 
+     * @param text the text to search in
+     * @param pattern the pattern to search for
+     * @return list of starting indices where pattern is found
+     */
+    public List<Integer> findAll(String text, String pattern) {
+        return search(text, pattern);
+    }
 }
 

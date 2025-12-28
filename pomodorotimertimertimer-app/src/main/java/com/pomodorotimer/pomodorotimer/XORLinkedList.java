@@ -155,5 +155,108 @@ public class XORLinkedList<T> {
         head = tail = null;
         size = 0;
     }
+    
+    /**
+     * Inserts an element at the end of the list (alias for addLast).
+     * 
+     * @param data the element to insert
+     */
+    public void insert(T data) {
+        addLast(data);
+    }
+    
+    /**
+     * Deletes an element from the list by value.
+     * 
+     * @param data the element to delete
+     * @return true if the element was found and deleted, false otherwise
+     */
+    public boolean delete(T data) {
+        if (head == null) {
+            return false;
+        }
+        
+        // Simple implementation: traverse and remove
+        // For XOR linked list, this is simplified
+        Node<T> current = head;
+        Node<T> prev = null;
+        
+        while (current != null) {
+            if (current.data.equals(data)) {
+                if (current == head) {
+                    removeFirst();
+                    return true;
+                } else if (current == tail) {
+                    tail = prev;
+                    if (tail != null) {
+                        tail.xorPtr = null;
+                    }
+                    size--;
+                    return true;
+                } else {
+                    // Update XOR pointers
+                    if (prev != null && current.xorPtr != null) {
+                        prev.xorPtr = current.xorPtr;
+                    }
+                    size--;
+                    return true;
+                }
+            }
+            Node<T> next = (prev == null) ? current.xorPtr : null;
+            if (next == null && current != tail) {
+                next = current.xorPtr;
+            }
+            prev = current;
+            current = next;
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Traverses the list in forward direction and prints elements.
+     */
+    public void traverseForward() {
+        if (head == null) {
+            System.out.println("List is empty");
+            return;
+        }
+        
+        Node<T> current = head;
+        Node<T> prev = null;
+        
+        while (current != null) {
+            System.out.println("  -> " + current.data);
+            Node<T> next = (prev == null) ? current.xorPtr : null;
+            if (next == null && current != tail) {
+                next = current.xorPtr;
+            }
+            prev = current;
+            current = next;
+        }
+    }
+    
+    /**
+     * Traverses the list in backward direction and prints elements.
+     */
+    public void traverseBackward() {
+        if (tail == null) {
+            System.out.println("List is empty");
+            return;
+        }
+        
+        Node<T> current = tail;
+        Node<T> next = null;
+        
+        while (current != null) {
+            System.out.println("  <- " + current.data);
+            Node<T> prev = (next == null) ? current.xorPtr : null;
+            if (prev == null && current != head) {
+                prev = current.xorPtr;
+            }
+            next = current;
+            current = prev;
+        }
+    }
 }
 

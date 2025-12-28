@@ -29,15 +29,27 @@ public class DoubleLinkedList<T> implements Iterable<T> {
     /**
      * Inner class representing a node in the double linked list.
      */
-    private static class Node<T> {
-        T data;
-        Node<T> prev;
-        Node<T> next;
+    public static class Node<T> {
+        private T data;
+        private Node<T> prev;
+        private Node<T> next;
         
         Node(T data) {
             this.data = data;
             this.prev = null;
             this.next = null;
+        }
+        
+        public T getData() {
+            return data;
+        }
+        
+        public Node<T> getPrev() {
+            return prev;
+        }
+        
+        public Node<T> getNext() {
+            return next;
         }
     }
     
@@ -229,6 +241,15 @@ public class DoubleLinkedList<T> implements Iterable<T> {
                 return data;
             }
         };
+    }
+    
+    /**
+     * Returns the tail node for backward traversal.
+     * 
+     * @return the tail node
+     */
+    public Node<T> getTail() {
+        return tail;
     }
 }
 

@@ -200,5 +200,39 @@ public class BPlusTree {
         // Simplified check - in real implementation, verify all paths have same height
         return root != null;
     }
+    
+    /**
+     * Prints the tree structure (simplified representation).
+     */
+    public void print() {
+        if (root == null) {
+            System.out.println("Tree is empty");
+            return;
+        }
+        
+        System.out.println("B+ Tree structure:");
+        printNode(root, 0);
+    }
+    
+    /**
+     * Recursively prints a node and its children.
+     * 
+     * @param node the node to print
+     * @param level the current level in the tree
+     */
+    private void printNode(Node node, int level) {
+        String indent = "  ".repeat(level);
+        
+        if (node.isLeaf()) {
+            LeafNode leaf = (LeafNode) node;
+            System.out.println(indent + "Leaf: " + leaf.keys + " -> " + leaf.values);
+        } else {
+            InternalNode internal = (InternalNode) node;
+            System.out.println(indent + "Internal: " + internal.keys);
+            for (Node child : internal.children) {
+                printNode(child, level + 1);
+            }
+        }
+    }
 }
 
