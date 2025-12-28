@@ -210,16 +210,17 @@ public class FileOperations {
         int originalIndex = index;
         int probes = 0;
         
-        while (table[index] != null) {
+        // Always check at least the first index
+        do {
             probes++;
-            if (!table[index].deleted && table[index].key.equals(key)) {
+            if (table[index] != null && !table[index].deleted && table[index].key.equals(key)) {
                 return probes;
             }
             index = (index + 1) % capacity;
             if (index == originalIndex) {
                 break;
             }
-        }
+        } while (table[index] != null);
         
         return probes;
     }
