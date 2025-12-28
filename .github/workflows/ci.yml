@@ -14,6 +14,23 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       
+    - name: Check project directory
+      run: |
+        echo "Checking for project directory..."
+        if [ -d "pomodorotimer-app" ]; then
+          echo "✅ Found: pomodorotimer-app"
+        elif [ -d "pomodorotimertimertimer-app" ]; then
+          echo "⚠️ Found: pomodorotimertimertimer-app (old name)"
+          echo "Renaming to pomodorotimer-app..."
+          mv pomodorotimertimertimer-app pomodorotimer-app
+          echo "✅ Renamed successfully"
+        else
+          echo "❌ Project directory not found!"
+          echo "Available directories:"
+          ls -la
+          exit 1
+        fi
+      
     - name: Set up JDK 8
       uses: actions/setup-java@v4
       with:
