@@ -10,7 +10,7 @@ echo Change the current working directory to the script directory
 @cd /d "%~dp0"
 
 :: Set project directory name
-set "PROJECT_DIR=pomodorotimertimertimer-app"
+set "PROJECT_DIR=pomodorotimer-app"
 
 echo Delete the "docs" folder and its contents
 if exist "%PROJECT_DIR%\target\site\coverxygen" rd /S /Q "%PROJECT_DIR%\target\site\coverxygen"
