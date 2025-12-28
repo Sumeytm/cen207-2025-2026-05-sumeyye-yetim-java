@@ -22,14 +22,14 @@ jobs:
         cache: maven
         
     - name: Build with Maven
-      working-directory: ./pomodorotimertimertimer-app
+      working-directory: ./pomodorotimer-app
       run: |
         echo "Building project..."
         mvn clean compile
         echo "✅ Build successful!"
       
     - name: Run tests
-      working-directory: ./pomodorotimertimertimer-app
+      working-directory: ./pomodorotimer-app
       run: |
         echo "Running tests..."
         mvn test || {
@@ -55,19 +55,29 @@ jobs:
         echo "✅ All tests passed!"
       
     - name: Generate JaCoCo coverage report
-      working-directory: ./pomodorotimertimertimer-app
+      working-directory: ./pomodorotimer-app
       if: always()
-      run: mvn jacoco:report
+      run: |
+        echo "Generating JaCoCo coverage report..."
+        mvn jacoco:report
+        echo "✅ Coverage report generated!"
+        echo "Checking for HTML report..."
+        if [ -f target/site/jacoco/index.html ]; then
+          echo "✅ HTML report found at: target/site/jacoco/index.html"
+        else
+          echo "⚠️ HTML report not found, checking for XML..."
+          ls -la target/site/jacoco/ || echo "Jacoco directory not found"
+        fi
       
     - name: Generate Javadoc
-      working-directory: ./pomodorotimertimertimer-app
+      working-directory: ./pomodorotimer-app
       run: |
         echo "Generating Javadoc..."
         mvn javadoc:javadoc
         echo "✅ Javadoc generated!"
       
     - name: Package application
-      working-directory: ./pomodorotimertimertimer-app
+      working-directory: ./pomodorotimer-app
       run: |
         echo "Packaging application..."
         mvn package -DskipTests
@@ -78,7 +88,7 @@ jobs:
       if: always()
       with:
         name: coverage-reports
-        path: pomodorotimertimertimer-app/target/site/jacoco/**
+        path: pomodorotimer-app/target/site/jacoco/**
         if-no-files-found: ignore
           
     - name: Upload Javadoc
@@ -86,5 +96,5 @@ jobs:
       if: always()
       with:
         name: javadoc
-        path: pomodorotimertimertimer-app/target/javadoc/**
+        path: pomodorotimer-app/target/javadoc/**
         if-no-files-found: ignore
