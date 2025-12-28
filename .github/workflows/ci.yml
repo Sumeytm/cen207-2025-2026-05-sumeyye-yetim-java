@@ -25,134 +25,41 @@ jobs:
       working-directory: ./pomodorotimertimertimer-app
       run: |
         echo "Building project..."
-        mvn clean compile 2>&1 | tee build-output.log || {
-          echo "❌ Build failed!"
-          echo "=== Last 200 lines of build output ==="
-          tail -200 build-output.log
-          echo ""
-          echo "=== Checking for compilation errors ==="
-          grep -i "error" build-output.log | tail -20
-          exit 1
-        }
+        mvn clean compile
         echo "✅ Build successful!"
-      continue-on-error: false
       
-    - name: Run tests with coverage
+    - name: Run tests
       working-directory: ./pomodorotimertimertimer-app
-      continue-on-error: true
       run: |
         echo "Running tests..."
-        mvn test 2>&1 | tee test-output.log || {
+        mvn test || {
           echo "❌ Tests failed!"
-          echo "=== Test Failure Details ==="
+          echo "=== Checking test reports ==="
           if [ -d target/surefire-reports ]; then
-            echo "Checking surefire reports..."
-            echo "=== All Test Reports ==="
-            find target/surefire-reports -name "*.txt" -exec echo "=== {} ===" \; -exec head -50 {} \;
-            echo ""
-            echo "=== Test XML Reports ==="
-            find target/surefire-reports -name "*.xml" | head -5
-          else
-            echo "No surefire-reports directory found"
+            echo "Test reports found:"
+            find target/surefire-reports -name "*.txt" -exec echo "=== {} ===" \; -exec cat {} \;
           fi
-          echo ""
-          echo "=== Last 200 lines of test output ==="
-          tail -200 test-output.log
-          echo "⚠️ Tests failed but continuing..."
+          exit 1
         }
-        if [ $? -eq 0 ]; then
-          echo "✅ All tests passed!"
-        fi
+        echo "✅ All tests passed!"
       
-    - name: Display test results
-      working-directory: ./pomodorotimertimertimer-app
-      if: always()
-      run: |
-        echo "=== Test Results Summary ==="
-        if [ -d target/surefire-reports ]; then
-          echo "Test reports found:"
-          find target/surefire-reports -name "*.txt" | head -5
-        else
-          echo "No test reports found"
-        fi
-        
     - name: Generate JaCoCo coverage report
       working-directory: ./pomodorotimertimertimer-app
       if: always()
       run: mvn jacoco:report
       
-    - name: Check code coverage (minimum 80%)
-      working-directory: ./pomodorotimertimertimer-app
-      id: coverage-check
-      continue-on-error: true
-      run: |
-        echo "Checking code coverage..."
-        mvn jacoco:check || {
-          echo "⚠️ Coverage check failed, but continuing..."
-          echo "coverage-failed=true" >> $GITHUB_OUTPUT
-        }
-        echo "coverage-failed=false" >> $GITHUB_OUTPUT
-      
-    - name: Display coverage summary
-      working-directory: ./pomodorotimertimertimer-app
-      if: always()
-      run: |
-        echo "=== Coverage Report Location ==="
-        if [ -f target/site/jacoco/index.html ]; then
-          echo "Coverage report generated successfully at target/site/jacoco/index.html"
-        else
-          echo "WARNING: Coverage report not found"
-        fi
-      
     - name: Generate Javadoc
       working-directory: ./pomodorotimertimertimer-app
       run: |
         echo "Generating Javadoc..."
-        mvn javadoc:javadoc || {
-          echo "❌ Javadoc generation failed!"
-          exit 1
-        }
-        echo "✅ Javadoc generated successfully!"
-        if [ -d target/javadoc ]; then
-          echo "Javadoc directory exists"
-          ls -la target/javadoc/ | head -10
-        else
-          echo "WARNING: Javadoc directory not found"
-        fi
-      continue-on-error: false
-      
-    - name: Install wkhtmltopdf for PDF generation
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y wkhtmltopdf
-        
-    - name: Generate Javadoc PDF
-      working-directory: ./pomodorotimertimertimer-app
-      id: pdf-generation
-      continue-on-error: true
-      run: |
-        if [ -f target/javadoc/index.html ]; then
-          echo "Generating PDF from Javadoc..."
-          wkhtmltopdf --enable-local-file-access --page-size A4 --margin-top 0.75in --margin-bottom 0.75in --margin-left 0.75in --margin-right 0.75in target/javadoc/index.html target/javadoc/javadoc.pdf && {
-            echo "✅ PDF generated successfully"
-            echo "pdf-generated=true" >> $GITHUB_OUTPUT
-          } || {
-            echo "⚠️ PDF generation failed, but continuing..."
-            echo "pdf-generated=false" >> $GITHUB_OUTPUT
-          }
-        else
-          echo "Javadoc HTML not found, skipping PDF generation"
-          echo "pdf-generated=false" >> $GITHUB_OUTPUT
-        fi
+        mvn javadoc:javadoc
+        echo "✅ Javadoc generated!"
       
     - name: Package application
       working-directory: ./pomodorotimertimertimer-app
       run: |
-        echo "Packaging application (tests already run, skipping tests)..."
-        mvn package -DskipTests || {
-          echo "❌ Package failed!"
-          exit 1
-        }
+        echo "Packaging application..."
+        mvn package -DskipTests
         echo "✅ Package successful!"
       
     - name: Upload coverage reports
@@ -160,54 +67,13 @@ jobs:
       if: always()
       with:
         name: coverage-reports
-        path: |
-          pomodorotimertimertimer-app/target/site/jacoco/**
-          pomodorotimertimertimer-app/target/jacoco/**
+        path: pomodorotimertimertimer-app/target/site/jacoco/**
         if-no-files-found: ignore
           
-    - name: Upload Javadoc (HTML and PDF)
+    - name: Upload Javadoc
       uses: actions/upload-artifact@v4
       if: always()
       with:
         name: javadoc
-        path: |
-          pomodorotimertimertimer-app/target/javadoc/**
-          pomodorotimertimertimer-app/target/javadoc/*.pdf
+        path: pomodorotimertimertimer-app/target/javadoc/**
         if-no-files-found: ignore
-          
-    - name: Workflow Summary
-      if: always()
-      run: |
-        echo "=== Workflow Summary ==="
-        echo "✅ Build: Completed"
-        echo "✅ Tests: Completed"
-        echo "✅ Coverage Report: Generated"
-        if [ "${{ steps.coverage-check.outcome }}" == "failure" ]; then
-          echo "⚠️ Coverage Check: Failed (but non-blocking)"
-        else
-          echo "✅ Coverage Check: Passed"
-        fi
-        echo "✅ Javadoc: Generated"
-        if [ "${{ steps.pdf-generation.outcome }}" == "failure" ]; then
-          echo "⚠️ PDF Generation: Failed (but non-blocking)"
-        else
-          echo "✅ PDF Generation: Completed"
-        fi
-        echo "✅ Package: Completed"
-        echo ""
-        echo "✅ All critical steps completed successfully!"
-        echo "Workflow status: SUCCESS"
-        
-    - name: Set job status
-      if: always()
-      run: |
-        # Check if critical steps succeeded
-        if [ "${{ steps.coverage-check.outcome }}" == "failure" ] || [ "${{ steps.pdf-generation.outcome }}" == "failure" ]; then
-          echo "⚠️ Some non-critical steps failed, but critical steps succeeded"
-          echo "Job will be marked as successful"
-          exit 0
-        else
-          echo "✅ All steps succeeded"
-          exit 0
-        fi
-
